@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class LogInController {
-
+public class EmployeeLogInController {
     @Autowired
     AppRepository appRepository;
 
-    @PostMapping("/user/login")
+    @PostMapping("/user/employee/login")
     public ResponseEntity logInUser(@RequestBody LogIn logIn){
         String email = logIn.getEmail();
         String password = logIn.getPassword();
+        String role = logIn.getRole();
 
         if (email.isEmpty() || password.isEmpty()) {
             return ResponseEntity.badRequest().body("Please complete all fields");
@@ -35,10 +35,13 @@ public class LogInController {
         }
 
         if (BCrypt.checkpw(password, user.getPassword())){
-            return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
+            if ("employee".equals(user.getRole())) {
+                return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Incorrect role for employee", HttpStatus.UNAUTHORIZED);
+            }
         } else {
             return new ResponseEntity<>("Incorrect password or email", HttpStatus.UNAUTHORIZED);
         }
     }
-
 }

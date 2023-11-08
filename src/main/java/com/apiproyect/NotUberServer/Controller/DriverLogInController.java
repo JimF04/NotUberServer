@@ -1,6 +1,6 @@
 package com.apiproyect.NotUberServer.Controller;
 
-import com.apiproyect.NotUberServer.Model.LogIn;
+import com.apiproyect.NotUberServer.Model.LogInDriver;
 import com.apiproyect.NotUberServer.Model.User;
 import com.apiproyect.NotUberServer.Repository.AppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class LogInController {
-
+public class DriverLogInController {
     @Autowired
     AppRepository appRepository;
 
-    @PostMapping("/user/login")
-    public ResponseEntity logInUser(@RequestBody LogIn logIn){
-        String email = logIn.getEmail();
-        String password = logIn.getPassword();
+    @PostMapping("/user/driver/login")
+    public ResponseEntity logInUser(@RequestBody LogInDriver logInDriver){
+        String email = logInDriver.getEmail();
+        String password = logInDriver.getPassword();
+        String role = logInDriver.getRole();
 
         if (email.isEmpty() || password.isEmpty()) {
             return ResponseEntity.badRequest().body("Please complete all fields");
@@ -35,10 +35,13 @@ public class LogInController {
         }
 
         if (BCrypt.checkpw(password, user.getPassword())){
-            return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
+            if ("driver".equals(user.getRole())) {
+                return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Incorrect role for driver", HttpStatus.UNAUTHORIZED);
+            }
         } else {
             return new ResponseEntity<>("Incorrect password or email", HttpStatus.UNAUTHORIZED);
         }
     }
-
 }

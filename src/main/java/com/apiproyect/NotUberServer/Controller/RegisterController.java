@@ -20,20 +20,6 @@ public class RegisterController {
         return "Te amo Jose, mi cookie <3";
     }
 
-    @GetMapping(value = "/test2")
-    public String helloWorld2(){
-        return "Te amo Gabriel, mi caramelito <3";
-    }
-
-    @GetMapping(value = "/test3")
-    public String helloWorld3(){
-        return "Te amo Fuaviiiii, fucking loveeeeeee u <3";
-    }
-    @GetMapping(value = "/test4")
-    public String helloWorld4(){
-        return "Samuel, chambee jaja";
-    }
-
     @PostMapping("/user/register")
     public ResponseEntity registerNewUser(@RequestBody User user){
         String companyID = user.getCompanyID();
