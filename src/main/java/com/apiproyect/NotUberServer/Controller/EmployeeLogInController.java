@@ -6,19 +6,18 @@ import com.apiproyect.NotUberServer.Repository.AppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/loginemployee")
 public class EmployeeLogInController {
     @Autowired
     AppRepository appRepository;
 
-    @PostMapping("/user/employee/login")
+    @PostMapping("/user/employee")
     public ResponseEntity logInUser(@RequestBody LogIn logIn){
         String email = logIn.getEmail();
         String password = logIn.getPassword();
@@ -34,7 +33,7 @@ public class EmployeeLogInController {
             return new ResponseEntity<>("User not found", HttpStatus.UNAUTHORIZED);
         }
 
-        if (BCrypt.checkpw(password, user.getPassword())){
+        if (password.equals(user.getPassword())){
             if ("employee".equals(user.getRole())) {
                 return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
             } else {

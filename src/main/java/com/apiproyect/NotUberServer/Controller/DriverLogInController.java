@@ -1,28 +1,27 @@
 package com.apiproyect.NotUberServer.Controller;
 
-import com.apiproyect.NotUberServer.Model.LogInDriver;
+import com.apiproyect.NotUberServer.Model.LogIn;
 import com.apiproyect.NotUberServer.Model.User;
 import com.apiproyect.NotUberServer.Repository.AppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/logindriver")
 public class DriverLogInController {
     @Autowired
     AppRepository appRepository;
 
-    @PostMapping("/user/driver/login")
-    public ResponseEntity logInUser(@RequestBody LogInDriver logInDriver){
-        String email = logInDriver.getEmail();
-        String password = logInDriver.getPassword();
-        String role = logInDriver.getRole();
+    @PostMapping("/user/driver")
+    public ResponseEntity logInUser(@RequestBody LogIn logIn){
+        String email = logIn.getEmail();
+        String password = logIn.getPassword();
+        String role = logIn.getRole();
 
         if (email.isEmpty() || password.isEmpty()) {
             return ResponseEntity.badRequest().body("Please complete all fields");
@@ -34,7 +33,7 @@ public class DriverLogInController {
             return new ResponseEntity<>("User not found", HttpStatus.UNAUTHORIZED);
         }
 
-        if (BCrypt.checkpw(password, user.getPassword())){
+        if (password.equals(user.getPassword())){
             if ("driver".equals(user.getRole())) {
                 return new ResponseEntity<>("User logged in successfully", HttpStatus.OK);
             } else {

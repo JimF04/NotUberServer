@@ -5,7 +5,6 @@ import com.apiproyect.NotUberServer.Repository.AppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,14 +33,15 @@ public class RegisterController {
         }
 
         // Encrypt / Hash Password:
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        // String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
         // Registrar nuevo usuario
         User newUser = new User();
         newUser.setCompanyID(companyID);
         newUser.setName(name);
         newUser.setEmail(email);
-        newUser.setPassword(hashedPassword);
+        newUser.setPassword(password);
+        newUser.setLocation(location);
         newUser.setRole(role);
 
         appRepository.save(newUser);
