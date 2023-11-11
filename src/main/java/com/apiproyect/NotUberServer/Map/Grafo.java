@@ -1,13 +1,8 @@
 package com.apiproyect.NotUberServer.Map;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Map.Entry;
-import java.util.HashMap;
 
 public class Grafo {
     private Set<Node> nodes = new HashSet<>();
@@ -31,55 +26,21 @@ public class Grafo {
     public static void main(String[] args) {
         Grafo graph = new Grafo();
 
-        Node nodeA = new Node("A");
-        Node nodeB = new Node("B");
-        Node nodeC = new Node("C");
-        Node nodeD = new Node("D");
-        Node nodeE = new Node("E");
-        Node nodeF = new Node("F");
+        // Crea nodos A a Z
+        for (char nodeName = 'A'; nodeName <= 'Z'; nodeName++) {
+            Node node = new Node(String.valueOf(nodeName));
+            graph.addNode(node);
+        }
 
-        nodeA.addDestination(nodeB, 10);
-        nodeA.addDestination(nodeC, 15);
-        nodeA.addDestination(nodeD, 5);
-        nodeA.addDestination(nodeE, 20);
-        nodeA.addDestination(nodeF, 15);
-
-        nodeB.addDestination(nodeA, 10);
-        nodeB.addDestination(nodeC, 5);
-        nodeB.addDestination(nodeD, 12);
-        nodeB.addDestination(nodeE, 25);
-        nodeB.addDestination(nodeF, 30);
-
-        nodeC.addDestination(nodeA, 15);
-        nodeC.addDestination(nodeB, 5);
-        nodeC.addDestination(nodeD, 10);
-        nodeC.addDestination(nodeE, 30);
-        nodeC.addDestination(nodeF, 20);
-
-        nodeD.addDestination(nodeA, 5);
-        nodeD.addDestination(nodeB, 12);
-        nodeD.addDestination(nodeC, 10);
-        nodeD.addDestination(nodeE, 2);
-        nodeD.addDestination(nodeF, 1);
-
-        nodeE.addDestination(nodeA, 20);
-        nodeE.addDestination(nodeB, 25);
-        nodeE.addDestination(nodeC, 30);
-        nodeE.addDestination(nodeD, 2);
-        nodeE.addDestination(nodeF, 5);
-
-        nodeF.addDestination(nodeA, 15);
-        nodeF.addDestination(nodeB, 30);
-        nodeF.addDestination(nodeC, 20);
-        nodeF.addDestination(nodeD, 1);
-        nodeF.addDestination(nodeE, 5);
-
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-        graph.addNode(nodeC);
-        graph.addNode(nodeD);
-        graph.addNode(nodeE);
-        graph.addNode(nodeF);
+        // Conectar todos los nodos con distancias aleatorias
+        for (Node node1 : graph.getNodes()) {
+            for (Node node2 : graph.getNodes()) {
+                if (!node1.equals(node2)) {
+                    int distanciaAleatoria = (int) (Math.random() * 10) + 1; // Distancia aleatoria entre 1 y 10
+                    node1.addDestination(node2, distanciaAleatoria);
+                }
+            }
+        }
 
         // Solicitar al usuario que ingrese el nodo de inicio
         Scanner scanner = new Scanner(System.in);
@@ -119,4 +80,3 @@ public class Grafo {
         scanner.close();
     }
 }
-
