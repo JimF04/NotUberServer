@@ -8,18 +8,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Data
 @XmlRootElement
 public class Driver {
-    private Long companyID;
+    private String companyID;
     private String name;
     private String email;
     private String password;
     private double rating;
     private int rides;
 
-    public Long getCompanyID() {
+    public String getCompanyID() {
         return companyID;
     }
 
-    public void setCompanyID(Long companyID) {
+    public void setCompanyID(String companyID) {
         this.companyID = companyID;
     }
 
