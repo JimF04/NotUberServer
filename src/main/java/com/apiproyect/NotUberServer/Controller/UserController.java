@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserController {
 
     private final XMLHandler xmlHandler;
@@ -20,25 +20,25 @@ public class UserController {
         this.xmlHandler = xmlHandler;
     }
 
-    @GetMapping("/drivers")
+    @GetMapping("/driver")
     public List<Driver> getAllDrivers() {
         // Lógica para obtener todos los conductores del XML
         return xmlHandler.getAllUsers("driver", Driver.class);
     }
 
-    @GetMapping("/employees")
+    @GetMapping("/employee")
     public List<Employee> getAllEmployees() {
         // Lógica para obtener todos los empleados del XML
         return xmlHandler.getAllUsers("employee", Employee.class);
     }
 
-    @PostMapping("/register/driver")
+    @PostMapping("/driver/register")
     public ResponseEntity registerNewDriver(@RequestBody Driver driver) {
         xmlHandler.registerUser("driver", driver);
         return new ResponseEntity<>("Driver registered successfully", HttpStatus.OK);
     }
 
-    @PostMapping("/register/employee")
+    @PostMapping("/employee/register")
     public ResponseEntity registerNewEmployee(@RequestBody Employee employee) {
         xmlHandler.registerUser("employee", employee);
         return new ResponseEntity<>("Employee registered successfully", HttpStatus.OK);
