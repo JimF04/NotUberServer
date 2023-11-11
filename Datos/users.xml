@@ -1,18 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <users>
-    <driver>
-        <companyID>1</companyID>
-        <name>Jimmy</name>
-        <email>jimmy@gmail.com</email>
-        <password>12345678</password>
-        <rating>4.5</rating>
-        <rides>100</rides>
-    </driver>
-    <employee>
-        <companyID>2</companyID>
-        <name>Jose</name>
-        <email>jose@gmail.com</email>
-        <password>12345678</password>
-        <location>A</location>
-    </employee>
-    <!-- Agregar más entradas para otros usuarios (conductores o empleados) si es necesario -->
+  <driver>
+    <companyID>1</companyID>
+    <name>Jimmy</name>
+    <email>jimmy@gmail.com</email>
+    <password>12345678</password>
+    <rating>4.5</rating>
+    <rides>100</rides>
+  </driver>
+  <employee>
+    <companyID>2</companyID>
+    <name>Jose</name>
+    <email>jose@gmail.com</email>
+    <password>12345678</password>
+    <location>A</location>
+  </employee>
+  <!-- Agregar más entradas para otros usuarios (conductores o empleados) si es necesario -->
+  <driver>
+    <companyID>1</companyID>
+    <name>John Doe</name>
+    <email>john.doe@example.com</email>
+    <password>password123</password>
+    <rating>4.8</rating>
+    <rides>150</rides>
+  </driver>
 </users>
