@@ -81,6 +81,7 @@ public class Node {
         }
     }
 
+
     private static Node getLowestDistance(Set<Node> unsettledNodes) {
         Node lowestDistanceNode = null;
         int lowestDistance = Integer.MAX_VALUE;
