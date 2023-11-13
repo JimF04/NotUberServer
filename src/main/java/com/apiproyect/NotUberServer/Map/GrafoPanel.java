@@ -12,42 +12,39 @@ public class GrafoPanel extends JPanel {
     private Grafo grafo;
     private Node selectedNode;
     private Map<Node, Point> nodePositions = new HashMap<>();
+    private final Node[] nodosAMostrar; // Array de nodos que quieres mostrar
 
-    public GrafoPanel(Grafo grafo) {
+    public GrafoPanel(Grafo grafo, Node[] nodosAMostrar) {
         this.grafo = grafo;
+        this.nodosAMostrar = nodosAMostrar;
         this.addMouseListener(new NodeSelectionListener());
     }
 
     public void calculateNodePositions() {
-        int gridSize = 150; // Ajusta el tamaño de la cuadrícula para separar más los nodos
-        int x = gridSize;
-        int y = gridSize;
+        // Limpiar el mapa de posiciones antes de asignar nuevas posiciones
+        nodePositions.clear();
 
-        for (Node node : grafo.getNodes()) {
-            nodePositions.put(node, new Point(x, y));
-            x += gridSize * 1.8; // Incrementa el espacio horizontal
-            if (x > getWidth() - gridSize) {
-                x = gridSize;
-                y += gridSize * 1.8; // Incrementa el espacio vertical
-            }
-        }
+        // Asignar manualmente las posiciones para cada nodo
+        nodePositions.put(nodosAMostrar[0], new Point(100, 100));
+        nodePositions.put(nodosAMostrar[1], new Point(200, 200));
+        nodePositions.put(nodosAMostrar[2], new Point(250, 300));
+        nodePositions.put(nodosAMostrar[3], new Point(400, 400));
+        // ... Agregar más nodos según sea necesario
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Dibujar nodos y conexiones
-        for (Node node : grafo.getNodes()) {
-            drawNode(g, node);
-            drawConnections(g, node);
+        for (Node node : nodosAMostrar) {
+            if (shouldShowNode(node)) {
+                drawNode(g, node);
+                drawConnections(g, node);
+            }
         }
 
-        // Resaltar el nodo seleccionado
         if (selectedNode != null) {
             drawSelectionHighlight(g, selectedNode);
-
-            // Mostrar resultados de los caminos más cortos
             drawShortestPathsInfo(g, selectedNode);
         }
     }
@@ -56,11 +53,9 @@ public class GrafoPanel extends JPanel {
         Point position = nodePositions.get(node);
 
         if (position != null) {
-            // Dibujar el nodo como un círculo
             g.setColor(Color.BLUE);
             g.fillOval(position.x, position.y, 30, 30);
 
-            // Dibujar el nombre del nodo
             g.setColor(Color.BLACK);
             g.drawString(node.getName(), position.x + 5, position.y + 15);
         }
@@ -70,19 +65,15 @@ public class GrafoPanel extends JPanel {
         Point startPoint = nodePositions.get(node);
 
         if (startPoint != null) {
-            // Dibujar conexiones a otros nodos
             Map<Node, Integer> adjacentNodes = node.getAdjacentNodes();
             for (Map.Entry<Node, Integer> entry : adjacentNodes.entrySet()) {
                 Node adjacentNode = entry.getKey();
                 Point endPoint = nodePositions.get(adjacentNode);
 
-                // Verificar si endPoint es null antes de intentar dibujar la conexión
                 if (endPoint != null) {
-                    // Dibujar la línea de conexión
                     g.setColor(Color.RED);
                     g.drawLine(startPoint.x + 15, startPoint.y + 15, endPoint.x + 15, endPoint.y + 15);
 
-                    // Dibujar la distancia
                     g.setColor(Color.BLACK);
                     g.drawString(String.valueOf(entry.getValue()), (startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2);
                 }
@@ -94,14 +85,17 @@ public class GrafoPanel extends JPanel {
         Point position = nodePositions.get(node);
 
         if (position != null) {
-            // Dibujar un círculo alrededor del nodo seleccionado
             g.setColor(Color.GREEN);
             g.drawOval(position.x - 5, position.y - 5, 40, 40);
         }
     }
 
     private void drawShortestPathsInfo(Graphics g, Node sourceNode) {
-        // (Código para mostrar información sobre caminos más cortos igual que antes...)
+        // Código para mostrar información sobre caminos más cortos igual que antes
+    }
+
+    private boolean shouldShowNode(Node node) {
+        return true; // Puedes agregar tu lógica de filtro aquí si es necesario
     }
 
     private class NodeSelectionListener extends MouseAdapter {
@@ -110,17 +104,14 @@ public class GrafoPanel extends JPanel {
             int mouseX = e.getX();
             int mouseY = e.getY();
 
-            // Iterar sobre los nodos para verificar si el clic está dentro de alguno
-            for (Node node : grafo.getNodes()) {
+            for (Node node : nodosAMostrar) {
                 Point position = nodePositions.get(node);
 
                 if (position != null && mouseX >= position.x && mouseX <= position.x + 30 && mouseY >= position.y && mouseY <= position.y + 30) {
                     selectedNode = node;
 
-                    // Calcular los caminos más cortos desde el nodo seleccionado
                     grafo.calculateShortestPaths(selectedNode);
 
-                    // Repintar el panel para mostrar los resultados
                     repaint();
                     break;
                 }
@@ -130,41 +121,35 @@ public class GrafoPanel extends JPanel {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // Crear una instancia de Grafo y configurarla
             Grafo graph = new Grafo();
 
-            // Crea nodos A a Z
-            for (char nodeName = 'A'; nodeName <= 'Z'; nodeName++) {
-                Node node = new Node(String.valueOf(nodeName));
-                graph.addNode(node);
-            }
+            // Crea nodos A, B, C
+            Node nodeA = new Node("A");
+            Node nodeB = new Node("B");
+            Node nodeC = new Node("C");
+            Node nodeD = new Node("D");
 
-            // Conectar todos los nodos con distancias aleatorias
-            for (Node node1 : graph.getNodes()) {
-                for (Node node2 : graph.getNodes()) {
-                    if (!node1.equals(node2)) {
-                        int distanciaAleatoria = (int) (Math.random() * 10) + 1; // Distancia aleatoria entre 1 y 10
-                        node1.addDestination(node2, distanciaAleatoria);
-                    }
-                }
-            }
+            graph.addNode(nodeA);
+            graph.addNode(nodeB);
+            graph.addNode(nodeC);
+            graph.addNode(nodeD);
+
+            // Conecta nodos con distancias aleatorias
+            nodeA.addDestination(nodeB, 5);
+            nodeB.addDestination(nodeC, 8);
+            nodeC.addDestination(nodeD,8);
 
             JFrame frame = new JFrame("Grafo Panel");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(1920, 1080); // Ajusta el tamaño del panel
+            frame.setSize(500, 500);
 
-            // Utilizar la instancia de Grafo creada anteriormente
-            GrafoPanel grafoPanel = new GrafoPanel(graph);
+            GrafoPanel grafoPanel = new GrafoPanel(graph, new Node[]{nodeA, nodeB, nodeC, nodeD});
             frame.add(grafoPanel);
 
             frame.setVisible(true);
 
-            // Llamar a calculateNodePositions después de que el panel se vuelva visible
             grafoPanel.calculateNodePositions();
             grafoPanel.repaint();
         });
     }
 }
-
-
-
