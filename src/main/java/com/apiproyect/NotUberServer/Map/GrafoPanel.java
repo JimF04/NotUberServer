@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GrafoPanel extends JPanel {
 
@@ -25,33 +24,32 @@ public class GrafoPanel extends JPanel {
     public void calculateNodePositions() {
         nodePositions.clear();
         nodePositions.put(nodosAMostrar[0], new Point(100, 100));
-        nodePositions.put(nodosAMostrar[1], new Point(200, 200));
-        nodePositions.put(nodosAMostrar[2], new Point(250, 300));
+        nodePositions.put(nodosAMostrar[1], new Point(210, 160));
+        nodePositions.put(nodosAMostrar[2], new Point(100, 250));
         nodePositions.put(nodosAMostrar[3], new Point(400, 400));
-        nodePositions.put(nodosAMostrar[4], new Point(400, 500));
-        nodePositions.put(nodosAMostrar[5], new Point(400, 600));
-        nodePositions.put(nodosAMostrar[6], new Point(400, 700));
-        nodePositions.put(nodosAMostrar[7], new Point(400, 800));
-        nodePositions.put(nodosAMostrar[8], new Point(400, 900));
-        nodePositions.put(nodosAMostrar[9], new Point(500, 400));
-        nodePositions.put(nodosAMostrar[10], new Point(600, 400));
-        nodePositions.put(nodosAMostrar[11], new Point(700, 400));
-        nodePositions.put(nodosAMostrar[12], new Point(800, 400));
-        nodePositions.put(nodosAMostrar[13], new Point(900, 400));
-        nodePositions.put(nodosAMostrar[14], new Point(550, 400));
-        nodePositions.put(nodosAMostrar[15], new Point(650, 400));
-        nodePositions.put(nodosAMostrar[16], new Point(750, 400));
-        nodePositions.put(nodosAMostrar[17], new Point(850, 400));
-        nodePositions.put(nodosAMostrar[18], new Point(950, 400));
-        nodePositions.put(nodosAMostrar[19], new Point(620, 400));
-        nodePositions.put(nodosAMostrar[20], new Point(720, 400));
-        nodePositions.put(nodosAMostrar[21], new Point(820, 400));
-        nodePositions.put(nodosAMostrar[22], new Point(920, 400));
-        nodePositions.put(nodosAMostrar[23], new Point(1000, 400));
-        nodePositions.put(nodosAMostrar[24], new Point(420, 400));
-        nodePositions.put(nodosAMostrar[25], new Point(420, 400));
 
-
+        nodePositions.put(nodosAMostrar[4], new Point(580, 720 ));
+        nodePositions.put(nodosAMostrar[5], new Point(800, 700));
+        nodePositions.put(nodosAMostrar[6], new Point(270, 420));
+        nodePositions.put(nodosAMostrar[7], new Point(1100, 730));
+        nodePositions.put(nodosAMostrar[8], new Point(880, 600));
+        nodePositions.put(nodosAMostrar[9], new Point(750, 120));
+        nodePositions.put(nodosAMostrar[10], new Point(350, 180));
+        nodePositions.put(nodosAMostrar[11], new Point(180, 320));
+        nodePositions.put(nodosAMostrar[12], new Point(240, 560));
+        nodePositions.put(nodosAMostrar[13], new Point(1010, 640));
+        nodePositions.put(nodosAMostrar[14], new Point(730, 600));
+        nodePositions.put(nodosAMostrar[15], new Point(460, 520));
+        nodePositions.put(nodosAMostrar[16], new Point(650, 520));
+        nodePositions.put(nodosAMostrar[17], new Point(810, 380));
+        nodePositions.put(nodosAMostrar[18], new Point(520, 310));
+        nodePositions.put(nodosAMostrar[19], new Point(650, 420));
+        nodePositions.put(nodosAMostrar[20], new Point(630, 300));
+        nodePositions.put(nodosAMostrar[21], new Point(710, 220));
+        nodePositions.put(nodosAMostrar[22], new Point(930, 200));
+        nodePositions.put(nodosAMostrar[23], new Point(1010, 225));
+        nodePositions.put(nodosAMostrar[24], new Point(1145, 370));
+        nodePositions.put(nodosAMostrar[25], new Point(1010, 400));
     }
 
     @Override
@@ -167,79 +165,82 @@ public class GrafoPanel extends JPanel {
         SwingUtilities.invokeLater(() -> {
             Grafo graph = new Grafo();
 
-            Node nodeA = new Node("A");
-            Node nodeB = new Node("B");
-            Node nodeC = new Node("C");
-            Node nodeD = new Node("D");
-            Node nodeE = new Node("E");
-            Node nodeF = new Node("F");
-            Node nodeG = new Node("G");
-            Node nodeH = new Node("H");
-            Node nodeI = new Node("I");
-            Node nodeJ = new Node("J");
-            Node nodeK = new Node("K");
-            Node nodeL = new Node("L");
-            Node nodeM = new Node("M");
-            Node nodeN = new Node("N");
-            Node nodeO = new Node("O");
-            Node nodeP = new Node("P");
-            Node nodeQ = new Node("Q");
-            Node nodeR = new Node("R");
-            Node nodeS = new Node("S");
-            Node nodeT = new Node("T");
-            Node nodeU = new Node("U");
-            Node nodeV = new Node("V");
-            Node nodeW = new Node("W");
-            Node nodeX = new Node("X");
-            Node nodeY = new Node("Y");
-            Node nodeZ = new Node("Z");
-            Node nodeAA = new Node("AA");
+            // Crear nodos
+            Node[] allNodes = new Node[26];
+            for (int i = 0; i < 26; i++) {
+                allNodes[i] = new Node(Character.toString((char) ('A' + i)));
+                graph.addNode(allNodes[i]);
+            }
 
-            graph.addNode(nodeA);
-            graph.addNode(nodeB);
-            graph.addNode(nodeC);
-            graph.addNode(nodeD);
-            graph.addNode(nodeE);
-            graph.addNode(nodeF);
-            graph.addNode(nodeG);
-            graph.addNode(nodeH);
-            graph.addNode(nodeI);
-            graph.addNode(nodeJ);
-            graph.addNode(nodeK);
-            graph.addNode(nodeL);
-            graph.addNode(nodeM);
-            graph.addNode(nodeN);
-            graph.addNode(nodeO);
-            graph.addNode(nodeP);
-            graph.addNode(nodeQ);
-            graph.addNode(nodeR);
-            graph.addNode(nodeS);
-            graph.addNode(nodeT);
-            graph.addNode(nodeU);
-            graph.addNode(nodeV);
-            graph.addNode(nodeW);
-            graph.addNode(nodeX);
-            graph.addNode(nodeY);
-            graph.addNode(nodeZ);
-            graph.addNode(nodeAA);
+            // Conectar nodos con distancias aleatorias (eliminando algunas conexiones)
+            allNodes[0].addDestination(allNodes[1], 2);
+            allNodes[0].addDestination(allNodes[2], 10);
+            allNodes[0].addDestination(allNodes[3], 25);
 
-            // Conectar todos los nodos entre sí con distancias aleatorias
-            nodeA.addDestination(nodeB, 2);
-            nodeA.addDestination(nodeC, 10);
-            nodeA.addDestination(nodeD, 25); // Agrega esta conexión
+            allNodes[1].addDestination(allNodes[2], 7);
+            allNodes[1].addDestination(allNodes[3], 20);
 
-            nodeB.addDestination(nodeA, 5);
-            nodeB.addDestination(nodeC, 7);
-            nodeB.addDestination(nodeD, 20);
+            allNodes[2].addDestination(allNodes[3], 8);
 
-            nodeC.addDestination(nodeA, 10);
-            nodeC.addDestination(nodeB, 7);
-            nodeC.addDestination(nodeD, 8);
+            allNodes[3].addDestination(allNodes[4], 5);
+            allNodes[4].addDestination(allNodes[5], 3);
+            allNodes[5].addDestination(allNodes[6], 6);
+            allNodes[6].addDestination(allNodes[7], 4);
+            allNodes[7].addDestination(allNodes[8], 8);
+            allNodes[8].addDestination(allNodes[9], 7);
+            allNodes[9].addDestination(allNodes[10], 9);
+            allNodes[10].addDestination(allNodes[11], 5);
+            allNodes[11].addDestination(allNodes[12], 6);
+            allNodes[12].addDestination(allNodes[13], 8);
+            allNodes[13].addDestination(allNodes[14], 7);
+            allNodes[14].addDestination(allNodes[15], 4);
+            allNodes[15].addDestination(allNodes[16], 5);
+            allNodes[16].addDestination(allNodes[17], 6);
+            allNodes[17].addDestination(allNodes[18], 7);
+            allNodes[18].addDestination(allNodes[19], 8);
+            allNodes[19].addDestination(allNodes[20], 9);
+            allNodes[20].addDestination(allNodes[21], 7);
+            allNodes[0].addDestination(allNodes[1], 2);
+            allNodes[0].addDestination(allNodes[2], 10);
+            allNodes[0].addDestination(allNodes[3], 25);
 
-            nodeD.addDestination(nodeA, 15); // Agrega esta conexión
-            nodeD.addDestination(nodeB, 20);
-            nodeD.addDestination(nodeC, 8);
+            allNodes[1].addDestination(allNodes[2], 7);
+            allNodes[1].addDestination(allNodes[3], 20);
 
+            allNodes[2].addDestination(allNodes[3], 8);
+
+            allNodes[3].addDestination(allNodes[4], 5);
+            allNodes[4].addDestination(allNodes[5], 3);
+            allNodes[5].addDestination(allNodes[6], 6);
+            allNodes[6].addDestination(allNodes[7], 4);
+            allNodes[7].addDestination(allNodes[8], 8);
+            allNodes[8].addDestination(allNodes[9], 7);
+            allNodes[9].addDestination(allNodes[10], 9);
+            allNodes[10].addDestination(allNodes[11], 5);
+            allNodes[11].addDestination(allNodes[12], 6);
+            allNodes[12].addDestination(allNodes[13], 8);
+            allNodes[13].addDestination(allNodes[14], 7);
+            allNodes[14].addDestination(allNodes[15], 4);
+            allNodes[15].addDestination(allNodes[16], 5);
+            allNodes[16].addDestination(allNodes[17], 6);
+            allNodes[17].addDestination(allNodes[18], 7);
+            allNodes[18].addDestination(allNodes[19], 8);
+            allNodes[19].addDestination(allNodes[20], 9);
+            allNodes[20].addDestination(allNodes[21], 7);
+            allNodes[21].addDestination(allNodes[22], 6);
+            allNodes[22].addDestination(allNodes[23], 5);
+            allNodes[23].addDestination(allNodes[24], 4);
+            allNodes[24].addDestination(allNodes[25], 3);
+
+            // Conectar nodos adicionales (puedes ajustar según sea necesario)
+            allNodes[0].addDestination(allNodes[4], 10);
+            allNodes[1].addDestination(allNodes[5], 12);
+            allNodes[2].addDestination(allNodes[6], 15);
+            allNodes[3].addDestination(allNodes[7], 8);
+            allNodes[21].addDestination(allNodes[22], 6);
+            allNodes[22].addDestination(allNodes[23], 5);
+            allNodes[23].addDestination(allNodes[24], 4);
+            allNodes[24].addDestination(allNodes[25], 3);
 
             JFrame frame = new JFrame("Grafo Panel");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -251,10 +252,10 @@ public class GrafoPanel extends JPanel {
             JTextArea areadetexto = new JTextArea();
             areadetexto.setBounds(600, 100, 50, 20);
 
-            frame.add(areadetexto);
-            frame.add(boton);
 
-            GrafoPanel grafoPanel = new GrafoPanel(graph, new Node[]{nodeA, nodeB, nodeC, nodeD,nodeE,nodeF,nodeG,nodeH,nodeI,nodeJ,nodeK,nodeL,nodeM,nodeN,nodeO,nodeP,nodeQ,nodeR,nodeS,nodeT,nodeU,nodeV,nodeW,nodeX,nodeY,nodeZ });
+
+
+            GrafoPanel grafoPanel = new GrafoPanel(graph, allNodes);
             frame.add(grafoPanel);
 
             boton.addActionListener(e -> {
