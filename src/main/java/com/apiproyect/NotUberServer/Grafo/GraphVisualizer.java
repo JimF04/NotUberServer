@@ -7,8 +7,16 @@ import javax.swing.*;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Clase que proporciona métodos para visualizar un grafo utilizando JGraphX.
+ */
 public class GraphVisualizer {
 
+    /**
+     * Visualiza el grafo en una ventana utilizando JGraphX.
+     *
+     * @param graph Grafo a visualizar.
+     */
     public static void visualizeGraph(Graph graph) {
         // Crear un objeto mxGraph
         mxGraph mxGraph = new mxGraph();

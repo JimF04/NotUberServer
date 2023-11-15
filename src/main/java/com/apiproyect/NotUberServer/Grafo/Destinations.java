@@ -3,12 +3,18 @@ package com.apiproyect.NotUberServer.Grafo;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+
+/**
+ * Clase que proporciona métodos para la creación de un grafo de destinos con nodos y conexiones aleatorias.
+ */
 public class Destinations {
 
-    public static void main(String[] args) {
-        createGraph(new Graph());
-    }
 
+    /**
+     * Crea un grafo de destinos con nodos y conexiones aleatorias.
+     *
+     * @param graph Grafo al que se agregarán los nodos y conexiones.
+     */
     public static void createGraph(Graph graph) {
 
         // Nodo de la oficina con coordenadas específicas
@@ -36,9 +42,13 @@ public class Destinations {
             }
         }
 
-        //GraphVisualizer.visualizeGraph(graph);
     }
 
+    /**
+     * Crea una lista de nodos de destino con coordenadas específicas.
+     *
+     * @return Lista de nodos de destino.
+     */
     private static List<Node> createDestinationNodes() {
         List<Node> destinationNodes = new ArrayList<>();
 
@@ -75,8 +85,16 @@ public class Destinations {
         return destinationNodes;
     }
 
+    /**
+     * Conecta un nodo de origen con nodos aleatorios en el grafo.
+     *
+     * @param graph  Grafo al que se agregarán las conexiones.
+     * @param source Nodo de origen al que se conectarán otros nodos.
+     */
     private static void connectRandomNodes(Graph graph, Node source) {
-        int numOfConnections = ThreadLocalRandom.current().nextInt(1) + 1; // Entre 1 y 2 conexiones
+        int minConnections = 1;
+        int maxConnections = 3;
+        int numOfConnections = ThreadLocalRandom.current().nextInt(minConnections, maxConnections + 1); // Entre 1 y 3 conexiones
 
         List<Node> allNodes = new ArrayList<>(graph.getNodes());
         allNodes.remove(source); // El nodo de origen ya está conectado
@@ -90,6 +108,12 @@ public class Destinations {
         }
     }
 
+    /**
+     * Conecta nodos no visitados en el grafo para asegurar la conectividad.
+     *
+     * @param graph Grafo al que se agregarán las conexiones.
+     * @param office Nodo de la oficina que se utilizará como referencia.
+     */
     private static void makeGraphConnected(Graph graph, Node office) {
         Set<Node> visited = new HashSet<>();
         dfs(graph, office, visited);
@@ -102,6 +126,13 @@ public class Destinations {
         }
     }
 
+    /**
+     * Realiza un recorrido en profundidad (DFS) en el grafo para marcar nodos visitados.
+     *
+     * @param graph   Grafo a recorrer.
+     * @param node    Nodo de inicio del recorrido.
+     * @param visited Conjunto que almacena nodos visitados.
+     */
     private static void dfs(Graph graph, Node node, Set<Node> visited) {
         visited.add(node);
         for (Graph.Edge edge : graph.getEdges(node)) {

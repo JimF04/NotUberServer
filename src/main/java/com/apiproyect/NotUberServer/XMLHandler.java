@@ -16,6 +16,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Clase encargada de manejar la lectura y escritura de datos XML para usuarios de tipo "driver" y "employee".
+ */
 @Component
 public class XMLHandler {
 
@@ -50,6 +53,14 @@ public class XMLHandler {
         }
     }
 
+    /**
+     * Obtiene una lista de todos los usuarios del tipo especificado.
+     *
+     * @param elementType Tipo de usuario ("driver" o "employee").
+     * @param clazz       Clase que representa el tipo de usuario.
+     * @param <T>         Tipo genérico que representa el tipo de usuario.
+     * @return Lista de usuarios del tipo especificado.
+     */
     public <T> List<T> getAllUsers(String elementType, Class<T> clazz) {
         Document document = readXML(filePath);
         Element rootElement = document.getRootElement();
@@ -59,52 +70,12 @@ public class XMLHandler {
                 .collect(Collectors.toList());
     }
 
-    // Método auxiliar para convertir un elemento a un objeto Java utilizando solo JDOM
-    private <T> T convertElementToObject(Element element, Class<T> clazz) {
-        try {
-            T instance = clazz.getDeclaredConstructor().newInstance();
-
-            // Obtén todos los campos de la clase del objeto
-            Field[] fields = clazz.getDeclaredFields();
-
-            // Itera sobre los campos y establece los valores desde el elemento XML
-            for (Field field : fields) {
-                field.setAccessible(true);
-                String fieldName = field.getName();
-
-                // Busca el elemento correspondiente al campo en el XML
-                Element fieldElement = element.getChild(fieldName);
-
-                if (fieldElement != null) {
-                    // Obtiene el valor del elemento y establece el campo en el objeto
-                    String fieldValue = fieldElement.getText();
-                    field.set(instance, convertStringToFieldType(fieldValue, field.getType()));
-                }
-            }
-
-            return instance;
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // Método auxiliar para convertir un String a un tipo específico de campo
-    private Object convertStringToFieldType(String stringValue, Class<?> fieldType) {
-        if (fieldType == String.class) {
-            return stringValue;
-        } else if (fieldType == Integer.class || fieldType == int.class) {
-            return Integer.parseInt(stringValue);
-        } else if (fieldType == Double.class || fieldType == double.class) {
-            return Double.parseDouble(stringValue);
-        } else if (fieldType == Long.class || fieldType == long.class) {
-            return Long.parseLong(stringValue);
-        } else if (fieldType == Boolean.class || fieldType == boolean.class) {
-            return Boolean.parseBoolean(stringValue);
-        }
-        return stringValue;
-    }
-
+    /**
+     * Registra un nuevo usuario en el archivo XML.
+     *
+     * @param elementType Tipo de usuario ("driver" o "employee").
+     * @param user        Objeto que representa el usuario a registrar.
+     */
     public void registerUser(String elementType, Object user) {
         Document document = readXML(filePath);
         Element rootElement = document.getRootElement();
@@ -157,7 +128,51 @@ public class XMLHandler {
             e.printStackTrace();
         }
     }
+
+
+    // Método auxiliar para convertir un elemento a un objeto Java utilizando solo JDOM
+    private <T> T convertElementToObject(Element element, Class<T> clazz) {
+        try {
+            T instance = clazz.getDeclaredConstructor().newInstance();
+
+            // Obtén todos los campos de la clase del objeto
+            Field[] fields = clazz.getDeclaredFields();
+
+            // Itera sobre los campos y establece los valores desde el elemento XML
+            for (Field field : fields) {
+                field.setAccessible(true);
+                String fieldName = field.getName();
+
+                // Busca el elemento correspondiente al campo en el XML
+                Element fieldElement = element.getChild(fieldName);
+
+                if (fieldElement != null) {
+                    // Obtiene el valor del elemento y establece el campo en el objeto
+                    String fieldValue = fieldElement.getText();
+                    field.set(instance, convertStringToFieldType(fieldValue, field.getType()));
+                }
+            }
+
+            return instance;
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Método auxiliar para convertir un String a un tipo específico de campo
+    private Object convertStringToFieldType(String stringValue, Class<?> fieldType) {
+        if (fieldType == String.class) {
+            return stringValue;
+        } else if (fieldType == Integer.class || fieldType == int.class) {
+            return Integer.parseInt(stringValue);
+        } else if (fieldType == Double.class || fieldType == double.class) {
+            return Double.parseDouble(stringValue);
+        } else if (fieldType == Long.class || fieldType == long.class) {
+            return Long.parseLong(stringValue);
+        } else if (fieldType == Boolean.class || fieldType == boolean.class) {
+            return Boolean.parseBoolean(stringValue);
+        }
+        return stringValue;
+    }
 }
-
-
-

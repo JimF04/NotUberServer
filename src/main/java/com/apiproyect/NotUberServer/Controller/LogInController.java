@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Controlador que gestiona las operaciones de inicio de sesión para conductores y empleados.
+ */
 @RestController
 @RequestMapping("/api")
 public class LogInController {
@@ -22,6 +26,12 @@ public class LogInController {
     @Autowired
     XMLHandler xmlHandler;
 
+    /**
+     * Procesa la solicitud de inicio de sesión para conductores.
+     *
+     * @param logIn Objeto LogIn que contiene la información de inicio de sesión del conductor.
+     * @return ResponseEntity con un mensaje indicando el resultado del inicio de sesión y el código de estado HTTP correspondiente.
+     */
     @PostMapping("/driver/login")
     public ResponseEntity logInDriver(@RequestBody LogIn logIn) {
         String email = logIn.getEmail();
@@ -52,6 +62,12 @@ public class LogInController {
         }
     }
 
+    /**
+     * Procesa la solicitud de inicio de sesión para empleados.
+     *
+     * @param logIn Objeto LogIn que contiene la información de inicio de sesión del empleado.
+     * @return ResponseEntity con un mensaje indicando el resultado del inicio de sesión y el código de estado HTTP correspondiente.
+     */
     @PostMapping("/employee/login")
     public ResponseEntity logInEmployee(@RequestBody LogIn logIn) {
         String email = logIn.getEmail();

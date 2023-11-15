@@ -10,28 +10,53 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador que gestiona las operaciones relacionadas con los usuarios, incluyendo conductores y empleados.
+ */
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
     private final XMLHandler xmlHandler;
+
+    /**
+     * Constructor que inyecta el manejador XML al controlador.
+     *
+     * @param xmlHandler Manejador XML utilizado para interactuar con los datos de los usuarios.
+     */
     @Autowired
     public UserController(XMLHandler xmlHandler) {
         this.xmlHandler = xmlHandler;
     }
 
+    /**
+     * Obtiene todos los conductores almacenados en el sistema.
+     *
+     * @return Lista de conductores.
+     */
     @GetMapping("/driver")
     public List<Driver> getAllDrivers() {
         // Lógica para obtener todos los conductores del XML
         return xmlHandler.getAllUsers("driver", Driver.class);
     }
 
+    /**
+     * Obtiene todos los empleados almacenados en el sistema.
+     *
+     * @return Lista de empleados.
+     */
     @GetMapping("/employee")
     public List<Employee> getAllEmployees() {
         // Lógica para obtener todos los empleados del XML
         return xmlHandler.getAllUsers("employee", Employee.class);
     }
 
+    /**
+     * Registra un nuevo conductor en el sistema.
+     *
+     * @param driver Objeto Driver que contiene la información del nuevo conductor.
+     * @return ResponseEntity con un mensaje indicando el resultado del registro y el código de estado HTTP correspondiente.
+     */
     @PostMapping("/driver/register")
     public ResponseEntity registerNewDriver(@RequestBody Driver driver) {
         // Verifica si ya existe un usuario con el mismo correo o CompanyID
@@ -43,6 +68,12 @@ public class UserController {
         return new ResponseEntity<>("Driver registered successfully", HttpStatus.OK);
     }
 
+    /**
+     * Registra un nuevo empleado en el sistema.
+     *
+     * @param employee Objeto Employee que contiene la información del nuevo empleado.
+     * @return ResponseEntity con un mensaje indicando el resultado del registro y el código de estado HTTP correspondiente.
+     */
     @PostMapping("/employee/register")
     public ResponseEntity registerNewEmployee(@RequestBody Employee employee) {
         // Verifica si ya existe un usuario con el mismo correo o CompanyID
@@ -54,6 +85,13 @@ public class UserController {
         return new ResponseEntity<>("Employee registered successfully", HttpStatus.OK);
     }
 
+    /**
+     * Verifica si ya existe un usuario con el mismo correo o CompanyID en la lista de conductores o empleados.
+     *
+     * @param email     Correo del usuario a verificar.
+     * @param companyID CompanyID del usuario a verificar.
+     * @return true si el usuario ya existe, false en caso contrario.
+     */
     private boolean userExists(String email, String companyID) {
         List<Driver> drivers = xmlHandler.getAllUsers("driver", Driver.class);
         List<Employee> employees = xmlHandler.getAllUsers("employee", Employee.class);
