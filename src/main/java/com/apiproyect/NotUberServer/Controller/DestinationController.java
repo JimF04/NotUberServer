@@ -4,12 +4,10 @@ import com.apiproyect.NotUberServer.Grafo.DjkstraAlgorithm;
 import com.apiproyect.NotUberServer.Grafo.Graph;
 import com.apiproyect.NotUberServer.Grafo.Node;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controlador que gestiona las operaciones relacionadas con el grafo y los destinos.
@@ -44,47 +42,52 @@ public class DestinationController {
     }
 
     /**
-     * Obtiene el camino más corto desde un destino específico hasta la empresa.
+     * Obtiene el camino más corto desde una lista de destinos hasta la empresa.
      *
-     * @param destinationName Nombre del destino al que se desea encontrar el camino más corto.
-     * @return Lista de nodos que representan el camino más corto desde el destino hasta la empresa.
-     * @throws RuntimeException Si no se encuentra el nodo de la empresa o el nodo con el nombre especificado.
+     * @param destinationNames Lista de nombres de destinos para los cuales se desea encontrar el camino más corto.
+     * @return Lista de nodos que representan el camino más corto desde los destinos hasta la empresa.
+     * @throws RuntimeException Si no se encuentra el nodo de la empresa o algún nodo con el nombre especificado.
      */
-    @GetMapping("/shortestPath/{destinationName}")
-    public List<Node> getShortestPathToOffice(@PathVariable String destinationName) {
+    @PostMapping("/shortestPathToCompany")
+    public List<Node> getShortestPathToCompany(@RequestBody List<String> destinationNames) {
         Node office = graph.getNodes().stream()
                 .filter(node -> node.getName().equals("Empresa"))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No se encontró el nodo de la empresa"));
 
-        Node destinationNode = graph.getNodes().stream()
-                .filter(node -> node.getName().equals(destinationName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No se encontró el nodo con el nombre: " + destinationName));
+        List<Node> destinations = destinationNames.stream()
+                .map(name -> graph.getNodes().stream()
+                        .filter(node -> node.getName().equals(name))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("No se encontró el nodo con el nombre: " + name)))
+                .collect(Collectors.toList());
 
-        return DjkstraAlgorithm.getShortestPathToOffice(graph, destinationNode, office);
+        return DjkstraAlgorithm.getShortestPathToCompany(graph, destinations, office);
     }
 
+
     /**
-     * Obtiene la suma total de los pesos de los bordes en el camino más corto desde un destino específico hasta la empresa.
+     * Obtiene la distancia total desde una lista de destinos hasta la empresa.
      *
-     * @param destinationName Nombre del destino al que se desea encontrar el camino más corto.
+     * @param destinationNames Lista de nombres de destinos.
      * @return Suma total de los pesos de los bordes en el camino más corto.
-     * @throws RuntimeException Si no se encuentra el nodo de la empresa o el nodo con el nombre especificado.
+     * @throws RuntimeException Si no se encuentra el nodo de la empresa o algún nodo con el nombre especificado.
      */
-    @GetMapping("/totalDistance/{destinationName}")
-    public double getTotalDistanceToOffice(@PathVariable String destinationName) {
+    @GetMapping("/totalDistance")
+    public double getTotalDistanceForDestinations(@RequestBody List<String> destinationNames) {
         Node office = graph.getNodes().stream()
                 .filter(node -> node.getName().equals("Empresa"))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No se encontró el nodo de la empresa"));
 
-        Node destinationNode = graph.getNodes().stream()
-                .filter(node -> node.getName().equals(destinationName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No se encontró el nodo con el nombre: " + destinationName));
+        List<Node> destinations = destinationNames.stream()
+                .map(name -> graph.getNodes().stream()
+                        .filter(node -> node.getName().equals(name))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("No se encontró el nodo con el nombre: " + name)))
+                .collect(Collectors.toList());
 
-        List<Node> shortestPath = DjkstraAlgorithm.getShortestPathToOffice(graph, destinationNode, office);
+        List<Node> shortestPath = DjkstraAlgorithm.getShortestPathToCompany(graph, destinations, office);
 
         return DjkstraAlgorithm.calculateTotalDistance(graph, shortestPath);
     }

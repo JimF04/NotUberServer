@@ -184,7 +184,7 @@ public class DjkstraAlgorithm {
 
         GraphVisualizer.visualizeGraph(graph);
 
-        List<String> destinationNames = List.of("Destino 29", "Destino 16");
+        List<String> destinationNames = List.of("Destino 6", "Destino 1");
         String companyName = "Empresa";
 
         Node companyNode = graph.getNodes().stream()
