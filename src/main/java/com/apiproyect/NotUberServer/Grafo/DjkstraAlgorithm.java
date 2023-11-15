@@ -1,14 +1,19 @@
 package com.apiproyect.NotUberServer.Grafo;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.apiproyect.NotUberServer.Grafo.Destinations.createGraph;
 
 /**
- * Implementación del algoritmo de Dijkstra para encontrar rutas más cortas en un grafo ponderado.
+ * Clase que implementa el algoritmo de Dijkstra para encontrar rutas más cortas en un grafo ponderado.
  */
 public class DjkstraAlgorithm {
-    private static Map<Node, Node> previousNodes;  // Movemos previousNodes a nivel de clase
+
+    /**
+     * Mapa que almacena los nodos anteriores en el camino más corto desde el nodo de origen.
+     */
+    private static Map<Node, Node> previousNodes;
 
     /**
      * Encuentra las distancias más cortas desde el nodo de origen a todos los demás nodos en el grafo.
@@ -19,14 +24,11 @@ public class DjkstraAlgorithm {
      */
     public static Map<Node, Double> findShortestPaths(Graph graph, Node source) {
         Map<Node, Double> distances = new HashMap<>();
-        previousNodes = new HashMap<>();  // Inicializamos previousNodes
+        previousNodes = new HashMap<>();
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingDouble(distances::get));
         Set<Node> visited = new HashSet<>();
 
-        // Inicializar distancias con infinito y el nodo de origen con distancia 0
-        for (Node node : graph.getNodes()) {
-            distances.put(node, Double.POSITIVE_INFINITY);
-        }
+        graph.getNodes().forEach(node -> distances.put(node, Double.POSITIVE_INFINITY));
         distances.put(source, 0.0);
 
         priorityQueue.add(source);
@@ -40,16 +42,16 @@ public class DjkstraAlgorithm {
 
             visited.add(current);
 
-            for (Graph.Edge edge : graph.getEdges(current)) {
+            graph.getEdges(current).forEach(edge -> {
                 Node neighbor = edge.getDestination();
                 double newDistance = distances.get(current) + edge.getWeight();
 
                 if (newDistance < distances.get(neighbor)) {
                     distances.put(neighbor, newDistance);
-                    previousNodes.put(neighbor, current);  // Actualizamos el nodo anterior
+                    previousNodes.put(neighbor, current);
                     priorityQueue.add(neighbor);
                 }
-            }
+            });
         }
 
         return distances;
@@ -64,10 +66,31 @@ public class DjkstraAlgorithm {
      * @return Lista de nodos que representan el camino más corto desde el nodo de destino hasta la oficina.
      */
     public static List<Node> getShortestPathToOffice(Graph graph, Node destinationNode, Node office) {
-
         Map<Node, Double> distances = findShortestPaths(graph, destinationNode);
         List<Node> path = new ArrayList<>();
         Node current = office;
+
+        while (current != null) {
+            path.add(current);
+            current = previousNodes.get(current);
+        }
+
+        Collections.reverse(path);
+        return path;
+    }
+
+    /**
+     * Obtiene el camino más corto desde un nodo de origen hasta un nodo de destino.
+     *
+     * @param graph       Grafo ponderado.
+     * @param source      Nodo de origen.
+     * @param destination Nodo de destino.
+     * @return Lista de nodos que representan el camino más corto desde el nodo de origen hasta el nodo de destino.
+     */
+    public static List<Node> getShortestPath(Graph graph, Node source, Node destination) {
+        Map<Node, Double> distances = findShortestPaths(graph, source);
+        List<Node> path = new ArrayList<>();
+        Node current = destination;
 
         while (current != null) {
             path.add(current);
@@ -92,15 +115,62 @@ public class DjkstraAlgorithm {
             Node current = path.get(i);
             Node next = path.get(i + 1);
 
-            for (Graph.Edge edge : graph.getEdges(current)) {
-                if (edge.getDestination().equals(next)) {
-                    totalDistance += edge.getWeight();
-                    break;
-                }
-            }
+            totalDistance += graph.getEdges(current).stream()
+                    .filter(edge -> edge.getDestination().equals(next))
+                    .mapToDouble(Graph.Edge::getWeight)
+                    .findFirst()
+                    .orElseThrow();
         }
 
         return totalDistance;
+    }
+
+    /**
+     * Obtiene una lista de los caminos más cortos entre destinos consecutivos.
+     *
+     * @param graph        Grafo ponderado.
+     * @param destinations Lista de nodos que representan los destinos.
+     * @return Lista de caminos más cortos entre destinos consecutivos.
+     */
+    public static List<List<Node>> getShortestPathsBetweenDestinations(Graph graph, List<Node> destinations) {
+        List<List<Node>> paths = new ArrayList<>();
+
+        for (int i = 0; i < destinations.size() - 1; i++) {
+            Node source = destinations.get(i);
+            Node destination = destinations.get(i + 1);
+            List<Node> path = getShortestPath(graph, source, destination);
+            paths.add(path);
+        }
+
+        return paths;
+    }
+
+
+    /**
+     * Obtiene el camino más corto desde una lista de nodos hasta la empresa.
+     *
+     * @param graph       Grafo ponderado.
+     * @param nodes       Lista de nodos.
+     * @param companyNode Nodo de la empresa.
+     * @return Lista de nodos que representan el camino más corto desde la lista de nodos hasta la empresa.
+     */
+    public static List<Node> getShortestPathToCompany(Graph graph, List<Node> nodes, Node companyNode) {
+        List<Node> completePath = new ArrayList<>();
+
+        List<List<Node>> pathsBetweenDestinations = getShortestPathsBetweenDestinations(graph, nodes);
+
+        pathsBetweenDestinations.forEach(path ->
+                completePath.addAll(completePath.isEmpty() ? path : path.subList(1, path.size())));
+
+        List<Node> lastPath = getShortestPathToOffice(graph, nodes.get(nodes.size() - 1), companyNode);
+
+        if (!completePath.isEmpty() && lastPath.get(0).equals(completePath.get(completePath.size() - 1))) {
+            completePath.addAll(lastPath.subList(1, lastPath.size()));
+        } else {
+            completePath.addAll(lastPath);
+        }
+
+        return completePath;
     }
 
     /**
@@ -108,31 +178,31 @@ public class DjkstraAlgorithm {
      *
      * @param args Argumentos de línea de comandos (no utilizado en este caso).
      */
-    public static void main(String[] args){
-
+    public static void main(String[] args) {
         Graph graph = new Graph();
         createGraph(graph);
 
         GraphVisualizer.visualizeGraph(graph);
 
-        String destinationName = "Destino 1";
+        List<String> destinationNames = List.of("Destino 29", "Destino 16");
+        String companyName = "Empresa";
 
-
-        Node office = graph.getNodes().stream()
-                .filter(node -> node.getName().equals("Empresa"))
+        Node companyNode = graph.getNodes().stream()
+                .filter(node -> node.getName().equals(companyName))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No se encontró el nodo de la empresa"));
 
-        Node destinationNode = graph.getNodes().stream()
-                .filter(node -> node.getName().equals(destinationName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No se encontró el nodo con el nombre: " + destinationName));
+        List<Node> destinations = destinationNames.stream()
+                .map(name -> graph.getNodes().stream()
+                        .filter(node -> node.getName().equals(name))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("No se encontró el nodo con el nombre: " + name)))
+                .collect(Collectors.toList());
 
-        List<Node> shortestPath = DjkstraAlgorithm.getShortestPathToOffice(graph, destinationNode, office);
+        List<Node> completePath = getShortestPathToCompany(graph, destinations, companyNode);
 
-        System.out.println("La distancia más corta es: " + shortestPath);
-
-        System.out.println("Tiempo: " + DjkstraAlgorithm.calculateTotalDistance(graph, shortestPath));
-
+        double totalDistance = calculateTotalDistance(graph, completePath);
+        System.out.println("La distancia total para la ruta completa es: " + completePath);
+        System.out.println("Tiempo total: " + totalDistance);
     }
 }
