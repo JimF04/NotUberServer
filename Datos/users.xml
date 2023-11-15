@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <users>
-  <driver>
+  <employee>
     <companyID>2023060347</companyID>
     <name>Jimmy</name>
     <email>jimmy@gmail.com</email>
     <password>12345678</password>
+    <location>Destino 1</location>
     <rating>0.0</rating>
-    <rides>0</rides>
-  </driver>
+  </employee>
   <employee>
-    <companyID>202345673</companyID>
+    <companyID>462317894</companyID>
     <name>Jose</name>
     <email>jose@gmail.com</email>
     <password>12345678</password>
-    <location>Location1</location>
-    <rating>0.0</rating>
-  </employee>
-  <employee>
-    <companyID>202345623</companyID>
-    <name>Gabriel</name>
-    <email>gabriel@gmail.com</email>
-    <password>12345678</password>
-    <location>Location1</location>
+    <location>Destino 26</location>
     <rating>0.0</rating>
   </employee>
   <driver>
-    <companyID>2023456738</companyID>
+    <companyID>56731294512</companyID>
     <name>Samuel</name>
     <email>samuel@gmail.com</email>
+    <password>12345678</password>
+    <rating>0.0</rating>
+    <rides>0</rides>
+  </driver>
+  <driver>
+    <companyID>5642378</companyID>
+    <name>Gabriel</name>
+    <email>gabriel@gmail.com</email>
     <password>12345678</password>
     <rating>0.0</rating>
     <rides>0</rides>

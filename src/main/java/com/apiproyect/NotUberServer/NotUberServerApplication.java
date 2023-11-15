@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class NotUberServerApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(NotUberServerApplication.class, args);
 	}
 
