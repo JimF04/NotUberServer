@@ -5,10 +5,14 @@ import com.apiproyect.NotUberServer.Model.Employee;
 import com.apiproyect.NotUberServer.XMLHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Controlador que gestiona las operaciones relacionadas con los usuarios, incluyendo conductores y empleados.
@@ -111,6 +115,42 @@ public class UserController {
         }
 
         return false;
+    }
+
+    /**
+     * Obtiene la ubicación de un empleado basándose en su correo electrónico.
+     *
+     * @param email Correo electrónico del empleado.
+     * @return ResponseEntity con la ubicación del empleado y el código de estado HTTP correspondiente.
+     */
+    @GetMapping(value = "/employee/location/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> getEmployeeLocation(@PathVariable String email) {
+        Map<String, String> response = new HashMap<>();
+
+        if (email.isEmpty()) {
+            response.put("error", "Please provide an email");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        // Obtener todos los empleados del XML
+        List<Employee> employees = xmlHandler.getAllUsers("employee", Employee.class);
+
+        // Buscar el empleado con el correo proporcionado
+        Optional<Employee> employeeOptional = employees.stream()
+                .filter(employee -> employee.getEmail().equals(email))
+                .findFirst();
+
+        if (employeeOptional.isPresent()) {
+            // Obtener la ubicación del empleado
+            Employee employee = employeeOptional.get();
+            String location = employee.getLocation();
+
+            response.put("location", location);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("error", "Employee not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
     }
 }
 
