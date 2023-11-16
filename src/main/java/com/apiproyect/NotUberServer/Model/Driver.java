@@ -18,21 +18,24 @@ public class Driver {
     private String password;
     private double rating;
     private int rides;
-    private List<Integer> friends = new ArrayList<Integer>();
+    private String friends; // un String de enteros separados por una coma
 
     /**
-     * Retorna un arraylist de enteros con los companyID de los amigos del conductor
+     * Retorna un String de enteros con los companyID de los amigos del conductor,
+     * separados por comas
      *
      * @return List<Integer> lista de amigos
      */
-    public List<Integer> getFriends(){ return friends; }
+    public String getFriends(){ return friends; }
 
     /**
      * Añade un amigo a la lista de amigos del conductor
      *
      * @param friendID companyID del amigo
      */
-    public void addAFriend(int friendID){ this.friends.add(friendID);}
+    public void addFriend(Integer friendID){
+        this.friends = friends + "," + friendID.toString();
+    }
 
     /**
      * Obtiene el ID de la empresa del conductor.

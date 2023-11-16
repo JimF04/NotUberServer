@@ -17,6 +17,24 @@ public class Employee {
     private String password;
     private String location;
     private double rating;
+    private String friends; // un String de enteros separados por una coma
+
+    /**
+     * Retorna un String de enteros con los companyID de los amigos del conductor,
+     * separados por comas
+     *
+     * @return List<Integer> lista de amigos
+     */
+    public String getFriends(){ return friends; }
+
+    /**
+     * Añade un amigo a la lista de amigos del conductor
+     *
+     * @param friendID companyID del amigo
+     */
+    public void addFriend(Integer friendID){
+        this.friends = friends + "," + friendID.toString();
+    }
 
     /**
      * Obtiene el ID de la empresa del empleado.
