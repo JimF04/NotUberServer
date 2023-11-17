@@ -3,6 +3,8 @@ package com.apiproyect.NotUberServer.Model;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que representa a un conductor en el sistema.
@@ -16,6 +18,24 @@ public class Driver {
     private String password;
     private double rating;
     private int rides;
+    private String friends; // un String de enteros separados por una coma
+
+    /**
+     * Retorna un String de enteros con los companyID de los amigos del conductor,
+     * separados por comas
+     *
+     * @return List<Integer> lista de amigos
+     */
+    public String getFriends(){ return friends; }
+
+    /**
+     * Añade un amigo a la lista de amigos del conductor
+     *
+     * @param friendID companyID del amigo
+     */
+    public void addFriend(Integer friendID){
+        this.friends = friends + "," + friendID.toString();
+    }
 
     /**
      * Obtiene el ID de la empresa del conductor.
