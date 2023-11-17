@@ -5,10 +5,14 @@ import com.apiproyect.NotUberServer.Model.Employee;
 import com.apiproyect.NotUberServer.XMLHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Controlador que gestiona las operaciones relacionadas con los usuarios, incluyendo conductores y empleados.
@@ -111,6 +115,64 @@ public class UserController {
         }
 
         return false;
+    }
+
+    /**
+     * Obtiene la ubicación de un empleado basándose en su correo electrónico.
+     *
+     * @param email Correo electrónico del empleado.
+     * @return ResponseEntity con la ubicación del empleado y el código de estado HTTP correspondiente.
+     */
+    @GetMapping(value = "/employee/location/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> getEmployeeLocation(@PathVariable String email) {
+        Map<String, String> response = new HashMap<>();
+
+        if (email.isEmpty()) {
+            response.put("error", "Please provide an email");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        // Obtener todos los empleados del XML
+        List<Employee> employees = xmlHandler.getAllUsers("employee", Employee.class);
+
+        // Buscar el empleado con el correo proporcionado
+        Optional<Employee> employeeOptional = employees.stream()
+                .filter(employee -> employee.getEmail().equals(email))
+                .findFirst();
+
+        if (employeeOptional.isPresent()) {
+            // Obtener la ubicación del empleado
+            Employee employee = employeeOptional.get();
+            String location = employee.getLocation();
+
+            response.put("location", location);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("error", "Employee not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
+    @GetMapping("/driver/top5")
+    public List<Driver> getTop5DriversByRides() {
+        List<Driver> drivers = xmlHandler.getAllUsers("driver", Driver.class);
+
+        // Ordenar la lista de conductores por la cantidad de viajes (rides) utilizando Insertion Sort
+        for (int i = 1; i < drivers.size(); i++) {
+            Driver keyDriver = drivers.get(i);
+            int j = i - 1;
+
+            // Mover los elementos mayores que keyDriver a una posición adelante de su posición actual
+            while (j >= 0 && drivers.get(j).getRides() < keyDriver.getRides()) {
+                drivers.set(j + 1, drivers.get(j));
+                j = j - 1;
+            }
+            drivers.set(j + 1, keyDriver);
+        }
+
+        // Obtener los primeros 5 conductores después de ordenar
+        int topCount = Math.min(5, drivers.size());
+        return drivers.subList(0, topCount);
     }
 }
 

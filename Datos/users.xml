@@ -22,7 +22,7 @@
     <email>samuel@gmail.com</email>
     <password>12345678</password>
     <rating>0.0</rating>
-    <rides>0</rides>
+    <rides>20</rides>
   </driver>
   <driver>
     <companyID>5642378</companyID>
@@ -30,7 +30,31 @@
     <email>gabriel@gmail.com</email>
     <password>12345678</password>
     <rating>0.0</rating>
-    <rides>0</rides>
+    <rides>430</rides>
+  </driver>
+  <driver>
+    <companyID>5642378</companyID>
+    <name>Leonardo</name>
+    <email>leonardo@gmail.com</email>
+    <password>12345678</password>
+    <rating>0.0</rating>
+    <rides>34</rides>
+  </driver>
+  <driver>
+    <companyID>5642378</companyID>
+    <name>Luis</name>
+    <email>luis@gmail.com</email>
+    <password>12345678</password>
+    <rating>0.0</rating>
+    <rides>140</rides>
+  </driver>
+  <driver>
+    <companyID>5642378</companyID>
+    <name>Eugenio</name>
+    <email>eugenio@gmail.com</email>
+    <password>12345678</password>
+    <rating>0.0</rating>
+    <rides>74</rides>
   </driver>
   <driver>
     <companyID>2023073212</companyID>
