@@ -6,7 +6,7 @@
     <email>jimmy@gmail.com</email>
     <password>12345678</password>
     <location>Destino 1</location>
-    <rating>0.0</rating>
+    <rating>3.9</rating>
   </employee>
   <employee>
     <companyID>462317894</companyID>
@@ -14,14 +14,14 @@
     <email>jose@gmail.com</email>
     <password>12345678</password>
     <location>Destino 26</location>
-    <rating>0.0</rating>
+    <rating>4.6</rating>
   </employee>
   <driver>
     <companyID>56731294512</companyID>
     <name>Samuel</name>
     <email>samuel@gmail.com</email>
     <password>12345678</password>
-    <rating>0.0</rating>
+    <rating>2.0</rating>
     <rides>20</rides>
   </driver>
   <driver>
@@ -29,7 +29,7 @@
     <name>Gabriel</name>
     <email>gabriel@gmail.com</email>
     <password>12345678</password>
-    <rating>0.0</rating>
+    <rating>4.7</rating>
     <rides>430</rides>
   </driver>
   <driver>
@@ -37,7 +37,7 @@
     <name>Leonardo</name>
     <email>leonardo@gmail.com</email>
     <password>12345678</password>
-    <rating>0.0</rating>
+    <rating>2.3</rating>
     <rides>34</rides>
   </driver>
   <driver>
@@ -45,7 +45,7 @@
     <name>Luis</name>
     <email>luis@gmail.com</email>
     <password>12345678</password>
-    <rating>0.0</rating>
+    <rating>4.3</rating>
     <rides>140</rides>
   </driver>
   <driver>
@@ -53,7 +53,7 @@
     <name>Eugenio</name>
     <email>eugenio@gmail.com</email>
     <password>12345678</password>
-    <rating>0.0</rating>
+    <rating>3.5</rating>
     <rides>74</rides>
   </driver>
   <driver>
@@ -61,7 +61,7 @@
     <name>Samuel</name>
     <email>samarin@estudiantec.cr</email>
     <password>P@ssword1</password>
-    <rating>0.0</rating>
+    <rating>4.6</rating>
     <rides>0</rides>
     <friends>jose@gmail.com,gabriel@gmail.com,biggerbugget@gmail.com,jose@gmail.com,jose@gmail.com,jose@gmail.com,jose@gmail.com,jose@gmail.com,chegg,chegg,ched,gabriel@gmail.com,gabriel@gmail.com,jimmy@gmail.com,jimmy@gmail.com,jelq@gmail.com,,chelq@correo.com</friends>
   </driver>
@@ -71,7 +71,7 @@
     <email>biggerbugget@gmail.com</email>
     <password>P@ssword1</password>
     <location>Destino 1</location>
-    <rating>0.0</rating>
+    <rating>3.7</rating>
     <friends>gabriel@gmail.com</friends>
   </employee>
 </users>
