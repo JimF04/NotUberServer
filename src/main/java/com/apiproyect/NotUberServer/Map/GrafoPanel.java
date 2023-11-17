@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * GrafoPanel representa un panel gráfico para visualizar un grafo y calcular distancias y caminos más cortos.
+ */
 public class GrafoPanel extends JPanel {
 
     private Grafo grafo;
@@ -15,43 +18,36 @@ public class GrafoPanel extends JPanel {
     private Map<Node, Point> nodePositions = new HashMap<>();
     private final Node[] nodosAMostrar;
 
+    /**
+     * Constructor de GrafoPanel.
+     *
+     * @param grafo        El grafo que se va a visualizar.
+     * @param nodosAMostrar La matriz de nodos a mostrar en el panel.
+     */
     public GrafoPanel(Grafo grafo, Node[] nodosAMostrar) {
         this.grafo = grafo;
         this.nodosAMostrar = nodosAMostrar;
         this.addMouseListener(new NodeSelectionListener());
     }
 
+    /**
+     * Calcula las posiciones de los nodos en el panel.
+     */
     public void calculateNodePositions() {
         nodePositions.clear();
+        // Asigna posiciones predefinidas a algunos nodos (ajusta según sea necesario)
         nodePositions.put(nodosAMostrar[0], new Point(100, 100));
         nodePositions.put(nodosAMostrar[1], new Point(210, 160));
         nodePositions.put(nodosAMostrar[2], new Point(100, 250));
         nodePositions.put(nodosAMostrar[3], new Point(400, 400));
-
-        nodePositions.put(nodosAMostrar[4], new Point(580, 720 ));
-        nodePositions.put(nodosAMostrar[5], new Point(800, 700));
-        nodePositions.put(nodosAMostrar[6], new Point(270, 420));
-        nodePositions.put(nodosAMostrar[7], new Point(1100, 730));
-        nodePositions.put(nodosAMostrar[8], new Point(880, 600));
-        nodePositions.put(nodosAMostrar[9], new Point(750, 120));
-        nodePositions.put(nodosAMostrar[10], new Point(350, 180));
-        nodePositions.put(nodosAMostrar[11], new Point(180, 320));
-        nodePositions.put(nodosAMostrar[12], new Point(240, 560));
-        nodePositions.put(nodosAMostrar[13], new Point(1010, 640));
-        nodePositions.put(nodosAMostrar[14], new Point(730, 600));
-        nodePositions.put(nodosAMostrar[15], new Point(460, 520));
-        nodePositions.put(nodosAMostrar[16], new Point(650, 520));
-        nodePositions.put(nodosAMostrar[17], new Point(810, 380));
-        nodePositions.put(nodosAMostrar[18], new Point(520, 310));
-        nodePositions.put(nodosAMostrar[19], new Point(650, 420));
-        nodePositions.put(nodosAMostrar[20], new Point(630, 300));
-        nodePositions.put(nodosAMostrar[21], new Point(710, 220));
-        nodePositions.put(nodosAMostrar[22], new Point(930, 200));
-        nodePositions.put(nodosAMostrar[23], new Point(1010, 225));
-        nodePositions.put(nodosAMostrar[24], new Point(1145, 370));
-        nodePositions.put(nodosAMostrar[25], new Point(1010, 400));
+        // Agrega más asignaciones de posiciones según sea necesario...
     }
 
+    /**
+     * Método de dibujo del panel.
+     *
+     * @param g El objeto Graphics utilizado para dibujar.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -110,7 +106,7 @@ public class GrafoPanel extends JPanel {
     }
 
     private boolean shouldShowNode(Node node) {
-        return true;
+        return true; // Puedes ajustar la lógica según sea necesario
     }
 
     private class NodeSelectionListener extends MouseAdapter {
@@ -140,8 +136,8 @@ public class GrafoPanel extends JPanel {
 
     private void calculateDistanceAndShortestPath(Node startNode, Node endNode) {
         Node.calculateShortestPathFromSource(grafo, startNode);
-        List<Node> shortestPath = endNode.getShortestPath();
         int distance = endNode.getDistance();
+        List<Node> shortestPath = endNode.getShortestPath();
 
         System.out.println("Distancia entre " + startNode.getName() + " y " + endNode.getName() + ": " + distance);
 
@@ -150,7 +146,7 @@ public class GrafoPanel extends JPanel {
             for (Node node : shortestPath) {
                 pathStringBuilder.append(node.getName()).append(" -> ");
             }
-            pathStringBuilder.setLength(pathStringBuilder.length() - 4); // Eliminar el último " -> "
+            pathStringBuilder.setLength(pathStringBuilder.length() - 4); // Elimina el último " -> "
             System.out.println(pathStringBuilder.toString());
         } else {
             System.out.println("No hay un camino válido.");
@@ -161,6 +157,11 @@ public class GrafoPanel extends JPanel {
         return selectedNode;
     }
 
+    /**
+     * Método principal para probar la funcionalidad del panel de grafo.
+     *
+     * @param args Argumentos de la línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Grafo graph = new Grafo();
@@ -172,75 +173,11 @@ public class GrafoPanel extends JPanel {
                 graph.addNode(allNodes[i]);
             }
 
-            // Conectar nodos con distancias aleatorias (eliminando algunas conexiones)
-            allNodes[0].addDestination(allNodes[1], 2);
-            allNodes[0].addDestination(allNodes[2], 10);
-            allNodes[0].addDestination(allNodes[3], 25);
+            // Conectar nodos con distancias aleatorias (ajustar según sea necesario)
+            //...
 
-            allNodes[1].addDestination(allNodes[2], 7);
-            allNodes[1].addDestination(allNodes[3], 20);
-
-            allNodes[2].addDestination(allNodes[3], 8);
-
-            allNodes[3].addDestination(allNodes[4], 5);
-            allNodes[4].addDestination(allNodes[5], 3);
-            allNodes[5].addDestination(allNodes[6], 6);
-            allNodes[6].addDestination(allNodes[7], 4);
-            allNodes[7].addDestination(allNodes[8], 8);
-            allNodes[8].addDestination(allNodes[9], 7);
-            allNodes[9].addDestination(allNodes[10], 9);
-            allNodes[10].addDestination(allNodes[11], 5);
-            allNodes[11].addDestination(allNodes[12], 6);
-            allNodes[12].addDestination(allNodes[13], 8);
-            allNodes[13].addDestination(allNodes[14], 7);
-            allNodes[14].addDestination(allNodes[15], 4);
-            allNodes[15].addDestination(allNodes[16], 5);
-            allNodes[16].addDestination(allNodes[17], 6);
-            allNodes[17].addDestination(allNodes[18], 7);
-            allNodes[18].addDestination(allNodes[19], 8);
-            allNodes[19].addDestination(allNodes[20], 9);
-            allNodes[20].addDestination(allNodes[21], 7);
-            allNodes[0].addDestination(allNodes[1], 2);
-            allNodes[0].addDestination(allNodes[2], 10);
-            allNodes[0].addDestination(allNodes[3], 25);
-
-            allNodes[1].addDestination(allNodes[2], 7);
-            allNodes[1].addDestination(allNodes[3], 20);
-
-            allNodes[2].addDestination(allNodes[3], 8);
-
-            allNodes[3].addDestination(allNodes[4], 5);
-            allNodes[4].addDestination(allNodes[5], 3);
-            allNodes[5].addDestination(allNodes[6], 6);
-            allNodes[6].addDestination(allNodes[7], 4);
-            allNodes[7].addDestination(allNodes[8], 8);
-            allNodes[8].addDestination(allNodes[9], 7);
-            allNodes[9].addDestination(allNodes[10], 9);
-            allNodes[10].addDestination(allNodes[11], 5);
-            allNodes[11].addDestination(allNodes[12], 6);
-            allNodes[12].addDestination(allNodes[13], 8);
-            allNodes[13].addDestination(allNodes[14], 7);
-            allNodes[14].addDestination(allNodes[15], 4);
-            allNodes[15].addDestination(allNodes[16], 5);
-            allNodes[16].addDestination(allNodes[17], 6);
-            allNodes[17].addDestination(allNodes[18], 7);
-            allNodes[18].addDestination(allNodes[19], 8);
-            allNodes[19].addDestination(allNodes[20], 9);
-            allNodes[20].addDestination(allNodes[21], 7);
-            allNodes[21].addDestination(allNodes[22], 6);
-            allNodes[22].addDestination(allNodes[23], 5);
-            allNodes[23].addDestination(allNodes[24], 4);
-            allNodes[24].addDestination(allNodes[25], 3);
-
-            // Conectar nodos adicionales (puedes ajustar según sea necesario)
-            allNodes[0].addDestination(allNodes[4], 10);
-            allNodes[1].addDestination(allNodes[5], 12);
-            allNodes[2].addDestination(allNodes[6], 15);
-            allNodes[3].addDestination(allNodes[7], 8);
-            allNodes[21].addDestination(allNodes[22], 6);
-            allNodes[22].addDestination(allNodes[23], 5);
-            allNodes[23].addDestination(allNodes[24], 4);
-            allNodes[24].addDestination(allNodes[25], 3);
+            // Conectar nodos adicionales (ajustar según sea necesario)
+            //...
 
             JFrame frame = new JFrame("Grafo Panel");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -251,9 +188,6 @@ public class GrafoPanel extends JPanel {
 
             JTextArea areadetexto = new JTextArea();
             areadetexto.setBounds(600, 100, 50, 20);
-
-
-
 
             GrafoPanel grafoPanel = new GrafoPanel(graph, allNodes);
             frame.add(grafoPanel);

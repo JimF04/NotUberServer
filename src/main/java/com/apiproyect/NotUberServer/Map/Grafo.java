@@ -4,25 +4,53 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * Clase Grafo representa un grafo ponderado dirigido.
+ */
 public class Grafo {
     private Set<Node> nodes = new HashSet<>();
 
+    /**
+     * Obtiene el conjunto de nodos en el grafo.
+     *
+     * @return El conjunto de nodos en el grafo.
+     */
     public Set<Node> getNodes() {
         return nodes;
     }
 
+    /**
+     * Establece el conjunto de nodos en el grafo.
+     *
+     * @param nodes El conjunto de nodos a establecer.
+     */
     public void setNodes(Set<Node> nodes) {
         this.nodes = nodes;
     }
 
+    /**
+     * Agrega un nodo al grafo.
+     *
+     * @param nodeA El nodo a agregar.
+     */
     public void addNode(Node nodeA) {
         nodes.add(nodeA);
     }
 
+    /**
+     * Calcula los caminos más cortos desde un nodo fuente dado.
+     *
+     * @param source El nodo fuente.
+     */
     public void calculateShortestPaths(Node source) {
         Node.calculateShortestPathFromSource(this, source);
     }
 
+    /**
+     * Método principal para probar la funcionalidad del grafo.
+     *
+     * @param args Argumentos de la línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         Grafo graph = new Grafo();
 

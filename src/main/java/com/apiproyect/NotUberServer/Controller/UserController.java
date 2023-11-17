@@ -174,5 +174,67 @@ public class UserController {
         int topCount = Math.min(5, drivers.size());
         return drivers.subList(0, topCount);
     }
+
+    @GetMapping(value = "/driver/rating/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> getDriverRating(@PathVariable String email) {
+        Map<String, String> response = new HashMap<>();
+
+        if (email.isEmpty()) {
+            response.put("error", "Please provide an email");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        // Obtener todos los conductores del XML
+        List<Driver> drivers = xmlHandler.getAllUsers("driver", Driver.class);
+
+        // Buscar el conductor con el correo proporcionado
+        Optional<Driver> driverOptional = drivers.stream()
+                .filter(driver -> driver.getEmail().equals(email))
+                .findFirst();
+
+        if (driverOptional.isPresent()) {
+            // Obtener el rating del conductor
+            Driver driver = driverOptional.get();
+            String rating = String.valueOf(driver.getRating());
+
+            response.put("rating", rating);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("error", "Driver not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
+    @GetMapping(value = "/driver/rides/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> getDriverRides(@PathVariable String email) {
+        Map<String, String> response = new HashMap<>();
+
+        if (email.isEmpty()) {
+            response.put("error", "Please provide an email");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        // Obtener todos los conductores del XML
+        List<Driver> drivers = xmlHandler.getAllUsers("driver", Driver.class);
+
+        // Buscar el conductor con el correo proporcionado
+        Optional<Driver> driverOptional = drivers.stream()
+                .filter(driver -> driver.getEmail().equals(email))
+                .findFirst();
+
+        if (driverOptional.isPresent()) {
+            // Obtener la cantidad de viajes del conductor
+            Driver driver = driverOptional.get();
+            String rides = String.valueOf(driver.getRides());
+
+            response.put("rides", rides);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("error", "Driver not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
 }
+
 

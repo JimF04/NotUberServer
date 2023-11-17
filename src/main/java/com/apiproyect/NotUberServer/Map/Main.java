@@ -1,9 +1,20 @@
 package com.apiproyect.NotUberServer.Map;
 
+/**
+ * La clase principal (Main) para demostrar el cálculo de caminos más cortos en un grafo.
+ */
 public class Main {
-    public static void main(String []  args){
+
+    /**
+     * Método principal para ejecutar la demostración del cálculo de caminos más cortos en un grafo.
+     *
+     * @param args Argumentos de la línea de comandos (no utilizados).
+     */
+    public static void main(String[] args) {
+        // Crear un nuevo grafo
         Grafo graph = new Grafo();
 
+        // Crear nodos del grafo
         Node nodeA = new Node("A");
         Node nodeB = new Node("B");
         Node nodeC = new Node("C");
@@ -11,6 +22,7 @@ public class Main {
         Node nodeE = new Node("E");
         Node nodeF = new Node("F");
 
+        // Establecer conexiones entre los nodos con distancias asociadas
         nodeA.addDestination(nodeB, 10);
         nodeA.addDestination(nodeC, 15);
 
@@ -24,6 +36,7 @@ public class Main {
 
         nodeF.addDestination(nodeE, 5);
 
+        // Agregar nodos al grafo
         graph.addNode(nodeA);
         graph.addNode(nodeB);
         graph.addNode(nodeC);
@@ -31,6 +44,7 @@ public class Main {
         graph.addNode(nodeE);
         graph.addNode(nodeF);
 
+        // Calcular los caminos más cortos desde el nodo A
         graph.calculateShortestPaths(nodeA);
     }
 }
