@@ -3,6 +3,7 @@ package com.apiproyect.NotUberServer.Controller;
 import com.apiproyect.NotUberServer.Model.Driver;
 import com.apiproyect.NotUberServer.Model.Employee;
 import com.apiproyect.NotUberServer.Model.LogIn;
+import com.apiproyect.NotUberServer.Model.FriendRequest;
 import com.apiproyect.NotUberServer.XMLHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,15 +25,15 @@ public class FriendController {
     XMLHandler xmlHandler;
 
     @PostMapping("/addfriend")
-    public ResponseEntity addFriend(@RequestBody String friendname, String email) {
-        if (friendname.isEmpty()) {
-            return new ResponseEntity<>("Friend field must not be empty", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity addFriend(@RequestBody FriendRequest friendRequest) {
+        String friendname = friendRequest.getFriend();
+        String email = friendRequest.getEmail();
+
         xmlHandler.addFriend(friendname, email);
         return new ResponseEntity<>("friend added successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/friends")
+    @PostMapping("/friends")
     public String getFriends(@RequestBody String email) {
         return xmlHandler.getFriends(email);
     }

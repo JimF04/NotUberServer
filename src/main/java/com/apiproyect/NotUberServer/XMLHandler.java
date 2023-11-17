@@ -76,6 +76,8 @@ public class XMLHandler {
                 user.getChild("friends").setText(friends);
             }
         }
+
+        saveXML(document, filePath);
     }
 
     /**

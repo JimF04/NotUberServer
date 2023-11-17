@@ -32,4 +32,13 @@
     <rating>0.0</rating>
     <rides>0</rides>
   </driver>
+  <driver>
+    <companyID>2023073212</companyID>
+    <name>Samuel</name>
+    <email>samarin@estudiantec.cr</email>
+    <password>P@ssword1</password>
+    <rating>0.0</rating>
+    <rides>0</rides>
+    <friends>jose@gmail.com,gabriel@gmail.com</friends>
+  </driver>
 </users>

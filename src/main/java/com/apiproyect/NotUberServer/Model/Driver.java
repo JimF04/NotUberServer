@@ -18,7 +18,7 @@ public class Driver {
     private String password;
     private double rating;
     private int rides;
-    private String friends; // un String de enteros separados por una coma
+    private String friends = ""; // un String de enteros separados por una coma
 
     /**
      * Retorna un String de enteros con los companyID de los amigos del conductor,
@@ -33,9 +33,9 @@ public class Driver {
      *
      * @param friendID companyID del amigo
      */
-    public void addFriend(Integer friendID){
-        this.friends = friends + "," + friendID.toString();
-    }
+//    public void addFriend(Integer friendID){
+//        this.friends = friends + "," + friendID.toString();
+//    }
 
     /**
      * Obtiene el ID de la empresa del conductor.
