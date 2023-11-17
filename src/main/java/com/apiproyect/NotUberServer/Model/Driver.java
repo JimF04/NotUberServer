@@ -3,8 +3,7 @@ package com.apiproyect.NotUberServer.Model;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Clase que representa a un conductor en el sistema.

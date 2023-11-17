@@ -63,6 +63,15 @@
     <password>P@ssword1</password>
     <rating>0.0</rating>
     <rides>0</rides>
-    <friends>jose@gmail.com,gabriel@gmail.com</friends>
+    <friends>jose@gmail.com,gabriel@gmail.com,biggerbugget@gmail.com,jose@gmail.com,jose@gmail.com,jose@gmail.com,jose@gmail.com,jose@gmail.com,chegg,chegg,ched,gabriel@gmail.com,gabriel@gmail.com,jimmy@gmail.com,jimmy@gmail.com,jelq@gmail.com,,chelq@correo.com</friends>
   </driver>
+  <employee>
+    <companyID>2023073213</companyID>
+    <name>Samuel</name>
+    <email>biggerbugget@gmail.com</email>
+    <password>P@ssword1</password>
+    <location>Destino 1</location>
+    <rating>0.0</rating>
+    <friends>gabriel@gmail.com</friends>
+  </employee>
 </users>
