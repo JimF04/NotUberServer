@@ -54,6 +54,53 @@ public class XMLHandler {
     }
 
     /**
+     * Funcion para agregar un nuevo amigo a un usuario en el xml
+     *
+     * @param newfriend amiga a agregar
+     * @param useremail usuario al que se le quiere agregar un amigo
+     */
+    public void addFriend(String newfriend, String useremail) {
+        Document document = readXML(filePath);
+        Element rootElement = document.getRootElement();
+        List<Element> users = rootElement.getChildren();
+
+        for (Element user : users) {
+            // Check if this is the user with the matching email
+            if (useremail.equals(user.getChildText("email"))) {
+                String friends = user.getChildText("friends");
+                if (friends == null || friends.isEmpty()) {
+                    friends = newfriend;
+                } else {
+                    friends += "," + newfriend;
+                }
+                user.getChild("friends").setText(friends);
+            }
+        }
+    }
+
+    /**
+     * Funcion para obtener lista de amigos de un usuario
+     *
+     * @param email usuario
+     * @return String amigos
+     */
+    public String getFriends(String email) {
+        Document document = readXML(filePath);
+        Element rootElement = document.getRootElement();
+        List<Element> users = rootElement.getChildren();
+
+        for (Element user : users) {
+            // Check if this is the user with the matching email
+            if (email.equals(user.getChildText("email"))) {
+                return user.getChildText("friends");
+            }
+        }
+
+        // Return null if no matching user is found
+        return null;
+    }
+
+    /**
      * Obtiene una lista de todos los usuarios del tipo especificado.
      *
      * @param elementType Tipo de usuario ("driver" o "employee").
